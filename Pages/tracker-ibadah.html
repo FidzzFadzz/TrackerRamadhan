@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker Ibadah - Aplikasi Islami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #DFEFF6 0%, #ffffff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .checkbox-circle {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d0d0d0;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .checkbox-circle.checked {
+            background-color: #428686;
+            border-color: #428686;
+        }
+        .checkbox-circle i {
+            color: white;
+            font-size: 12px;
+            display: none;
+        }
+        .checkbox-circle.checked i {
+            display: block;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg">
+        
+        <!-- Header -->
+        <div class="px-6 pt-6 pb-4" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="flex items-center gap-4">
+                <button onclick="window.history.back()" class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-arrow-left text-lg text-white"></i>
+                </button>
+                <h1 class="text-white text-xl font-semibold">Tracker Ibadah</h1>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="px-6 py-4 bg-white">
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-gray-700 font-medium text-sm">Progress Harian</span>
+                    <span class="text-lg font-bold" style="color: #428686;">0/9</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="h-2 rounded-full" style="width: 0%; background: linear-gradient(90deg, #428686 0%, #437C9F 100%);"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tracker List -->
+        <div class="px-6 py-6 pb-32">
+            <div class="space-y-3">
+                
+                <!-- Sholat Subuh -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <img src="../Asset/Subuh.png" alt="Subuh" class="w-6 h-6 object-contain">
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Sholat Subuh</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Sholat Dzuhur -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <i class="fas fa-sun text-lg" style="color: #428686;"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Sholat Dzuhur</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Sholat Ashar -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <i class="fas fa-cloud-sun text-lg" style="color: #428686;"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Sholat Ashar</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Sholat Maghrib -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <img src="../Asset/Magrib.png" alt="Maghrib" class="w-6 h-6 object-contain">
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Sholat Maghrib</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Sholat Isya -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <i class="fas fa-moon text-lg" style="color: #428686;"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Sholat Isya</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Tarawih -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <img src="../Asset/Tarawih.png" alt="Tarawih" class="w-6 h-6 object-contain">
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Tarawih</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Tilawah Quran -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <i class="fas fa-book-quran text-lg" style="color: #428686;"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Tilawah Quran</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Sedekah -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <img src="../Asset/Sedekah.png" alt="Sedekah" class="w-6 h-6 object-contain">
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Sedekah</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Puasa -->
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 flex-1">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #c8e6f5;">
+                            <img src="../Asset/Puasa.png" alt="Puasa" class="w-6 h-6 object-contain">
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-semibold text-sm">Puasa</p>
+                        </div>
+                    </div>
+                    <div class="checkbox-circle" onclick="toggleCheckbox(event)">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 shadow-lg" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="max-w-md mx-auto">
+                <div class="flex justify-around items-center py-4 px-6">
+                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition" onclick="window.location.href='../index.html'">
+                        <i class="fas fa-calendar-alt text-xl"></i>
+                        <span class="text-xs">Kalender</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 text-white" onclick="window.location.href='../index.html'">
+                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center -mt-8 shadow-lg">
+                            <i class="fas fa-home text-2xl" style="color: #165273;"></i>
+                        </div>
+                        <span class="text-xs mt-1">Home</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition">
+                        <i class="fas fa-user-circle text-xl"></i>
+                        <span class="text-xs">Profil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleCheckbox(event) {
+            event.stopPropagation();
+            const checkbox = event.currentTarget;
+            checkbox.classList.toggle('checked');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checkbox-circle');
+            const checked = document.querySelectorAll('.checkbox-circle.checked').length;
+            const total = checkboxes.length;
+            
+            const progressBar = document.getElementById('progressBar');
+            const percentage = (checked / total) * 100;
+            progressBar.style.width = percentage + '%';
+            
+            // Update progress text in header
+            const progressText = document.querySelector('span:nth-of-type(2)');
+            progressText.textContent = `${checked}/${total}`;
+        }
+    </script>
+</body>
+</html>

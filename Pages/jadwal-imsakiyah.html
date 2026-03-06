@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Imsakiyah - Aplikasi Islami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #DFEFF6 0%, #ffffff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg">
+        
+        <!-- Header -->
+        <div class="px-6 pt-6 pb-4" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="flex items-center gap-4 mb-4">
+                <button onclick="window.history.back()" class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-arrow-left text-white text-lg"></i>
+                </button>
+                <div>
+                    <h1 class="text-white text-lg font-semibold">Jadwal Imsakiyah</h1>
+                    <p class="text-white text-xs opacity-90">Sesuai dengan zona waktu lokasmu</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="px-6 py-6 pb-24">
+            
+            <!-- Jadwal Hari Ini -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-gray-700 font-semibold text-sm" style="color: #165273;">JADWAL HARI INI</h2>
+                    <span class="text-gray-400 text-xs">04 Mar 2026</span>
+                </div>
+
+                <!-- Prayer Times Grid -->
+                <div class="grid grid-cols-3 gap-3">
+                    <!-- Imsak -->
+                    <div class="rounded-2xl p-4 text-center shadow-sm" style="background-color: #DFEFF6;">
+                        <i class="fas fa-moon text-2xl mb-2" style="color: #165273;"></i>
+                        <p class="text-gray-500 text-xs mb-1">IMSAK</p>
+                        <p class="text-gray-800 font-bold text-lg">04:26</p>
+                        <p class="text-gray-400 text-xs mt-1">TERLEWAT</p>
+                    </div>
+
+                    <!-- Subuh -->
+                    <div class="rounded-2xl p-4 text-center shadow-sm" style="background-color: #DFEFF6;">
+                        <i class="fas fa-sun text-2xl mb-2" style="color: #437C9F;"></i>
+                        <p class="text-gray-500 text-xs mb-1">SUBUH</p>
+                        <p class="text-gray-800 font-bold text-lg">04:36</p>
+                        <p class="text-gray-400 text-xs mt-1">TERLEWAT</p>
+                    </div>
+
+                    <!-- Dzuhur -->
+                    <div class="rounded-2xl p-4 text-center shadow-sm" style="background-color: #DFEFF6;">
+                        <i class="fas fa-sun text-2xl mb-2" style="color: #f57c00;"></i>
+                        <p class="text-gray-500 text-xs mb-1">DZUHUR</p>
+                        <p class="text-gray-800 font-bold text-lg">12:01</p>
+                        <p class="text-gray-400 text-xs mt-1">TERLEWAT</p>
+                    </div>
+
+                    <!-- Ashar -->
+                    <div class="rounded-2xl p-4 text-center shadow-sm border-2" style="background-color: #DFEFF6; border-color: #428686;">
+                        <i class="fas fa-sun text-2xl mb-2" style="color: #f57c00;"></i>
+                        <p class="text-gray-500 text-xs mb-1">ASHAR</p>
+                        <p class="font-bold text-lg" style="color: #428686;">15:05</p>
+                        <p class="text-xs mt-1 px-2 py-1 rounded-full inline-block" style="background-color: #c8f7f0; color: #428686;">-3m 16d</p>
+                    </div>
+
+                    <!-- Maghrib -->
+                    <div class="rounded-2xl p-4 text-center shadow-sm" style="background-color: #DFEFF6;">
+                        <i class="fas fa-moon text-2xl mb-2" style="color: #ec407a;"></i>
+                        <p class="text-gray-500 text-xs mb-1">MAGHRIB</p>
+                        <p class="text-gray-800 font-bold text-lg">18:08</p>
+                        <p class="text-gray-400 text-xs mt-1">TERLEWAT</p>
+                    </div>
+
+                    <!-- Isya -->
+                    <div class="rounded-2xl p-4 text-center shadow-sm" style="background-color: #DFEFF6;">
+                        <i class="fas fa-moon text-2xl mb-2" style="color: #215472;"></i>
+                        <p class="text-gray-500 text-xs mb-1">ISYA</p>
+                        <p class="text-gray-800 font-bold text-lg">19:17</p>
+                        <p class="text-gray-400 text-xs mt-1">TERLEWAT</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jadwal Mendatang -->
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fas fa-calendar" style="color: #165273;"></i>
+                    <h2 class="text-gray-700 font-semibold text-sm" style="color: #165273;">JADWAL MENDATANG</h2>
+                </div>
+
+                <div class="space-y-3" id="jadwalMendatang">
+                    <!-- Generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 shadow-lg" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="max-w-md mx-auto">
+                <div class="flex justify-around items-center py-4 px-6">
+                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition">
+                        <i class="fas fa-calendar-alt text-xl"></i>
+                        <span class="text-xs">Kalender</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 text-white" onclick="window.location.href='../index.html'">
+                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center -mt-8 shadow-lg">
+                            <i class="fas fa-home text-2xl" style="color: #165273;"></i>
+                        </div>
+                        <span class="text-xs mt-1">Home</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition">
+                        <i class="fas fa-user-circle text-xl"></i>
+                        <span class="text-xs">Profil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Generate jadwal mendatang hingga akhir Maret
+        const jadwalContainer = document.getElementById('jadwalMendatang');
+        const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        
+        // Mulai dari 5 Maret 2026
+        let tanggal = new Date(2026, 2, 5); // Maret = 2 (0-indexed)
+        
+        // Generate hingga 31 Maret
+        while (tanggal.getDate() <= 31 && tanggal.getMonth() === 2) {
+            const hariNama = hari[tanggal.getDay()];
+            const tanggalNum = tanggal.getDate();
+            const bulanNama = bulan[tanggal.getMonth()];
+            
+            const jadwalHTML = `
+                <div class="rounded-2xl p-4 shadow-sm" style="background-color: #DFEFF6;">
+                    <p class="text-gray-800 font-semibold mb-3">${hariNama}, ${tanggalNum} ${bulanNama}</p>
+                    <div class="flex justify-between text-sm">
+                        <div>
+                            <p class="text-xs mb-1" style="color: #165273;">IMSAK</p>
+                            <p class="font-bold text-gray-800">04:26</p>
+                        </div>
+                        <div>
+                            <p class="text-xs mb-1" style="color: #437C9F;">SUBUH</p>
+                            <p class="font-bold text-gray-800">04:36</p>
+                        </div>
+                        <div>
+                            <p class="text-xs mb-1" style="color: #ec407a;">BERBUKA</p>
+                            <p class="font-bold text-gray-800">18:07</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            jadwalContainer.innerHTML += jadwalHTML;
+            tanggal.setDate(tanggal.getDate() + 1);
+        }
+    </script>
+</body>
+</html>

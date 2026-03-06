@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Aplikasi Islami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #DFEFF6 0%, #ffffff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .gradient-card {
+            background: linear-gradient(135deg, #437C9F 0%, #215472 100%);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #428686 0%, #437C9F 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg">
+        
+        <!-- Header -->
+        <div class="px-6 pt-6 pb-4 rounded-b-3xl" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-xl" style="color: #165273;"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-semibold">Assalamu'alaikum</h1>
+                        <p class="text-white text-sm">Sahabat 👋</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <button class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-bell text-white"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Jadwal Imsakiyah Card -->
+            <div class="gradient-card rounded-3xl p-6 mt-4 relative overflow-hidden cursor-pointer" onclick="window.location.href='Pages/jadwal-imsakiyah.html'">
+                <div class="absolute bottom-0 right-0 w-full h-3/4 opacity-20">
+                    <img src="Asset/bg_mesjid.png" alt="Masjid" class="w-full h-full object-contain object-bottom">
+                </div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="text-white text-sm font-medium">BANDUNG</p>
+                        <p class="text-white text-xs opacity-90">14 RAMADAN 1447 H</p>
+                    </div>
+                    <p class="text-white text-xs mb-4 opacity-90">MENUJU BERBUKA</p>
+                    <div class="text-center mb-4">
+                        <h2 class="text-white text-5xl font-bold" id="countdown">07:09:45</h2>
+                        <p class="text-white text-sm mt-2 opacity-90">Maghrib pukul 18:12</p>
+                    </div>
+                    <div class="flex justify-between text-white text-xs mb-2">
+                        <span>SUBUH 04:35</span>
+                        <span>MAGHRIB 18:12</span>
+                    </div>
+                    <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                        <div class="progress-bar h-2 rounded-full" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Target Harian -->
+        <div class="px-6 mt-6 cursor-pointer" onclick="window.location.href='Pages/tracker-ibadah.html'">
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background-color: #DFEFF6;">
+                            <i class="fas fa-check-square text-xl" style="color: #428686;"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-800 font-semibold text-base">Daily Tracker</h3>
+                            <p class="text-gray-500 text-sm">Sudah 0 dari 6 target!</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-xl" style="color: #428686;">0%</p>
+                        <p class="text-gray-400 text-xs">Daily Goal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="px-6 mt-6 mb-24">
+            <div class="grid grid-cols-3 gap-3">
+                <!-- Al-Qur'an -->
+                <div class="flex flex-col items-center text-center cursor-pointer" onclick="window.location.href='Pages/alquran.html'">
+                    <div class="rounded-2xl p-4 mb-2 shadow-sm hover:shadow-md transition" style="background-color: #DFEFF6;">
+                        <img src="Asset/Logo Alquran.png" alt="Al-Qur'an" class="w-10 h-10 object-contain">
+                    </div>
+                    <p class="text-gray-800 font-medium text-xs">Al-Qur'an</p>
+                </div>
+
+                <!-- Doa -->
+                <div class="flex flex-col items-center text-center cursor-pointer" onclick="window.location.href='Pages/doa.html'">
+                    <div class="rounded-2xl p-4 mb-2 shadow-sm hover:shadow-md transition" style="background-color: #DFEFF6;">
+                        <img src="Asset/logo buku.png" alt="Doa" class="w-10 h-10 object-contain">
+                    </div>
+                    <p class="text-gray-800 font-medium text-xs">Doa</p>
+                </div>
+
+                <!-- Kiblat -->
+                <div class="flex flex-col items-center text-center cursor-pointer" onclick="window.location.href='Pages/kiblat.html'">
+                    <div class="rounded-2xl p-4 mb-2 shadow-sm hover:shadow-md transition" style="background-color: #DFEFF6;">
+                        <img src="Asset/icon kiblat.png" alt="Kiblat" class="w-10 h-10 object-contain">
+                    </div>
+                    <p class="text-gray-800 font-medium text-xs">Kiblat</p>
+                </div>
+
+                <!-- Tasbih -->
+                <div class="flex flex-col items-center text-center cursor-pointer" onclick="window.location.href='Pages/tasbih.html'">
+                    <div class="rounded-2xl p-4 mb-2 shadow-sm hover:shadow-md transition" style="background-color: #DFEFF6;">
+                        <img src="Asset/icon tasbih.png" alt="Tasbih" class="w-10 h-10 object-contain">
+                    </div>
+                    <p class="text-gray-800 font-medium text-xs">Tasbih</p>
+                </div>
+
+                <!-- Jurnal -->
+                <div class="flex flex-col items-center text-center cursor-pointer">
+                    <div class="rounded-2xl p-4 mb-2 shadow-sm hover:shadow-md transition" style="background-color: #DFEFF6;">
+                        <img src="Asset/diary.png" alt="Jurnal" class="w-10 h-10 object-contain">
+                    </div>
+                    <p class="text-gray-800 font-medium text-xs">Jurnal</p>
+                </div>
+
+                <!-- Target -->
+                <div class="flex flex-col items-center text-center cursor-pointer" onclick="window.location.href='Pages/target.html'">
+                    <div class="rounded-2xl p-4 mb-2 shadow-sm hover:shadow-md transition" style="background-color: #DFEFF6;">
+                        <img src="Asset/target.png" alt="Target" class="w-10 h-10 object-contain">
+                    </div>
+                    <p class="text-gray-800 font-medium text-xs">Target</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 shadow-lg" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="max-w-md mx-auto">
+                <div class="flex justify-around items-center py-4 px-6">
+                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition">
+                        <i class="fas fa-calendar-alt text-xl"></i>
+                        <span class="text-xs">Kalender</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 text-white">
+                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center -mt-8 shadow-lg">
+                            <i class="fas fa-home text-2xl" style="color: #165273;"></i>
+                        </div>
+                        <span class="text-xs mt-1">Home</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition">
+                        <i class="fas fa-user-circle text-xl"></i>
+                        <span class="text-xs">Profil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
