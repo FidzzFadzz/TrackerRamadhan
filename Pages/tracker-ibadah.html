@@ -209,19 +209,23 @@
         <div class="fixed bottom-0 left-0 right-0 shadow-lg" style="background: linear-gradient(to right, #165273, #215472);">
             <div class="max-w-md mx-auto">
                 <div class="flex justify-around items-center py-4 px-6">
-                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition" onclick="window.location.href='../index.html'">
-                        <i class="fas fa-calendar-alt text-xl"></i>
-                        <span class="text-xs">Kalender</span>
-                    </button>
-                    <button class="flex flex-col items-center gap-1 text-white" onclick="window.location.href='../index.html'">
-                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center -mt-8 shadow-lg">
-                            <i class="fas fa-home text-2xl" style="color: #165273;"></i>
+                    <button class="nav-button" data-page="kalender" onclick="window.location.href='kalender.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
                         </div>
-                        <span class="text-xs mt-1">Home</span>
+                        <span class="nav-label">Kalender</span>
                     </button>
-                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition">
-                        <i class="fas fa-user-circle text-xl"></i>
-                        <span class="text-xs">Profil</span>
+                    <button class="nav-button nav-active" data-page="home" onclick="window.location.href='../index.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <span class="nav-label">Home</span>
+                    </button>
+                    <button class="nav-button" data-page="profil" onclick="window.location.href='profil.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <span class="nav-label">Profil</span>
                     </button>
                 </div>
             </div>
@@ -251,5 +255,6 @@
             progressText.textContent = `${checked}/${total}`;
         }
     </script>
+    <script src="../navbar.js"></script>
 </body>
 </html>

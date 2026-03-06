@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender - Aplikasi Islami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #DFEFF6 0%, #ffffff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+        .calendar-day.other-month {
+            color: #d1d5db;
+            background-color: #f3f4f6;
+        }
+        .calendar-day.today {
+            background: linear-gradient(135deg, #437C9F 0%, #215472 100%);
+            color: white;
+            font-weight: bold;
+        }
+        .calendar-day.selected {
+            background-color: #DFEFF6;
+            border: 2px solid #437C9F;
+            color: #437C9F;
+        }
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .calendar-header-day {
+            text-align: center;
+            font-weight: bold;
+            color: #437C9F;
+            font-size: 12px;
+            padding: 8px 0;
+        }
+        /* Navigation Styling */
+        .nav-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: white;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            opacity: 0.8;
+        }
+        .nav-button.nav-active {
+            opacity: 1;
+        }
+        .nav-button.nav-active .nav-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .nav-button.nav-active .nav-icon-wrapper i {
+            color: #165273;
+            font-size: 24px;
+        }
+        .nav-button:not(.nav-active) .nav-icon-wrapper {
+            width: auto;
+            height: auto;
+            margin-top: 0;
+        }
+        .nav-button:not(.nav-active) .nav-icon-wrapper i {
+            font-size: 20px;
+        }
+        .nav-label {
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .nav-button.nav-active .nav-label {
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg">
+        
+        <!-- Header -->
+        <div class="px-6 pt-6 pb-6" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="flex items-center gap-4">
+                <button onclick="window.history.back()" class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-arrow-left text-white text-lg"></i>
+                </button>
+                <div>
+                    <h1 class="text-white text-xl font-semibold">Kalender</h1>
+                    <p class="text-white text-sm opacity-90">Hijriyah & Masehi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="px-6 py-4 bg-white border-b border-gray-200">
+            <div class="flex gap-3">
+                <button id="tabMasehi" class="px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap" style="background-color: white; color: #437C9F; border: 2px solid #437C9F;" onclick="switchTab('masehi')">
+                    Masehi
+                </button>
+                <button id="tabHijriyah" class="px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap" style="background-color: #DFEFF6; color: #165273; border: 2px solid #DFEFF6;" onclick="switchTab('hijriyah')">
+                    Hijriyah
+                </button>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="px-6 py-6 pb-32">
+            
+            <!-- Kalender Masehi -->
+            <div id="calendarMasehi">
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="previousMonthMasehi()" class="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50">
+                        <i class="fas fa-chevron-left text-gray-600"></i>
+                    </button>
+                    <div class="text-center">
+                        <h2 class="text-lg font-bold text-gray-800" id="monthYearMasehi">Maret 2026</h2>
+                        <p class="text-sm text-gray-500" id="hijriDateMasehi">14 Ramadan 1447 H</p>
+                    </div>
+                    <button onclick="nextMonthMasehi()" class="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50">
+                        <i class="fas fa-chevron-right text-gray-600"></i>
+                    </button>
+                </div>
+
+                <div class="calendar-header">
+                    <div class="calendar-header-day">Min</div>
+                    <div class="calendar-header-day">Sen</div>
+                    <div class="calendar-header-day">Sel</div>
+                    <div class="calendar-header-day">Rab</div>
+                    <div class="calendar-header-day">Kam</div>
+                    <div class="calendar-header-day">Jum</div>
+                    <div class="calendar-header-day">Sab</div>
+                </div>
+
+                <div class="calendar-grid" id="gridMasehi">
+                    <!-- Generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Kalender Hijriyah -->
+            <div id="calendarHijriyah" style="display: none;">
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="previousMonthHijri()" class="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50">
+                        <i class="fas fa-chevron-left text-gray-600"></i>
+                    </button>
+                    <div class="text-center">
+                        <h2 class="text-lg font-bold text-gray-800" id="monthYearHijri">Ramadan 1447 H</h2>
+                        <p class="text-sm text-gray-500" id="masehiDateHijri">Maret 2026 M</p>
+                    </div>
+                    <button onclick="nextMonthHijri()" class="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50">
+                        <i class="fas fa-chevron-right text-gray-600"></i>
+                    </button>
+                </div>
+
+                <div class="calendar-header">
+                    <div class="calendar-header-day">Ahd</div>
+                    <div class="calendar-header-day">Ith</div>
+                    <div class="calendar-header-day">Sel</div>
+                    <div class="calendar-header-day">Rab</div>
+                    <div class="calendar-header-day">Kha</div>
+                    <div class="calendar-header-day">Jum</div>
+                    <div class="calendar-header-day">Sab</div>
+                </div>
+
+                <div class="calendar-grid" id="gridHijri">
+                    <!-- Generated by JavaScript -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 shadow-lg" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="max-w-md mx-auto">
+                <div class="flex justify-around items-center py-4 px-6">
+                    <button class="nav-button nav-active" data-page="kalender" onclick="window.location.href='kalender.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <span class="nav-label">Kalender</span>
+                    </button>
+                    <button class="nav-button" data-page="home" onclick="window.location.href='../index.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <span class="nav-label">Home</span>
+                    </button>
+                    <button class="nav-button" data-page="profil" onclick="window.location.href='profil.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <span class="nav-label">Profil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/umm-al-qura@0.2.1/dist/index.umd.js"></script>
+    <script>
+        // Nama bulan
+        const bulanMasehi = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const bulanHijri = ['Muharram', 'Safar', 'Rabi\' al-Awwal', 'Rabi\' al-Thani', 'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban', 'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'];
+        const hariMinggu = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+        // Konversi Masehi ke Hijri
+        function masehiToHijri(date) {
+            try {
+                const hijri = window.UmmAlQura.Hijri.fromGregorian(date.getFullYear(), date.getMonth() + 1, date.getDate());
+                return { tahun: hijri.year, bulan: hijri.month, tanggal: hijri.day };
+            } catch (e) {
+                console.error('Konversi error:', e);
+                return { tahun: 1447, bulan: 9, tanggal: 14 };
+            }
+        }
+
+        // Konversi Hijri ke Masehi
+        function hijriToMasehi(hijri) {
+            try {
+                const gregorian = window.UmmAlQura.Gregorian.fromHijri(hijri.tahun, hijri.bulan, hijri.tanggal);
+                return new Date(gregorian.year, gregorian.month - 1, gregorian.day);
+            } catch (e) {
+                console.error('Konversi error:', e);
+                return new Date();
+            }
+        }
+
+        let currentDateMasehi = new Date(); // Hari ini
+        let currentDateHijri = masehiToHijri(currentDateMasehi); // Konversi otomatis ke Hijri
+
+        // Generate kalender Masehi
+        function generateCalendarMasehi() {
+            const year = currentDateMasehi.getFullYear();
+            const month = currentDateMasehi.getMonth();
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            document.getElementById('monthYearMasehi').textContent = `${bulanMasehi[month]} ${year}`;
+            
+            const hijri = masehiToHijri(currentDateMasehi);
+            document.getElementById('hijriDateMasehi').textContent = `${hijri.tanggal} ${bulanHijri[hijri.bulan - 1]} ${hijri.tahun} H`;
+
+            const grid = document.getElementById('gridMasehi');
+            grid.innerHTML = '';
+
+            // Hari dari bulan sebelumnya
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = daysInPrevMonth - i;
+                grid.appendChild(day);
+            }
+
+            // Hari di bulan ini
+            const today = new Date();
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+
+                if (year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
+                    day.classList.add('today');
+                }
+
+                grid.appendChild(day);
+            }
+
+            // Hari dari bulan berikutnya
+            const totalCells = grid.children.length;
+            const remainingCells = 42 - totalCells;
+            for (let i = 1; i <= remainingCells; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = i;
+                grid.appendChild(day);
+            }
+        }
+
+        // Generate kalender Hijri
+        function generateCalendarHijri() {
+            const hijri = currentDateHijri;
+            const bulan = hijri.bulan;
+            const tahun = hijri.tahun;
+
+            document.getElementById('monthYearHijri').textContent = `${bulanHijri[bulan - 1]} ${tahun} H`;
+
+            const masehiDate = hijriToMasehi(hijri);
+            document.getElementById('masehiDateHijri').textContent = `${bulanMasehi[masehiDate.getMonth()]} ${masehiDate.getFullYear()} M`;
+
+            const grid = document.getElementById('gridHijri');
+            grid.innerHTML = '';
+
+            // Bulan Hijri selalu 29 atau 30 hari
+            const daysInMonth = (bulan === 2 || bulan === 4 || bulan === 6 || bulan === 8 || bulan === 10 || bulan === 12) ? 30 : 29;
+            const firstDate = hijriToMasehi({ tahun, bulan, tanggal: 1 });
+            const firstDay = firstDate.getDay();
+
+            // Hari dari bulan sebelumnya
+            const prevMonth = bulan === 1 ? 12 : bulan - 1;
+            const prevYear = bulan === 1 ? tahun - 1 : tahun;
+            const daysInPrevMonth = (prevMonth === 2 || prevMonth === 4 || prevMonth === 6 || prevMonth === 8 || prevMonth === 10 || prevMonth === 12) ? 30 : 29;
+
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = daysInPrevMonth - i;
+                grid.appendChild(day);
+            }
+
+            // Hari di bulan ini
+            const today = new Date();
+            const todayHijri = masehiToHijri(today);
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+
+                if (tahun === todayHijri.tahun && bulan === todayHijri.bulan && i === todayHijri.tanggal) {
+                    day.classList.add('today');
+                }
+
+                grid.appendChild(day);
+            }
+
+            // Hari dari bulan berikutnya
+            const totalCells = grid.children.length;
+            const remainingCells = 42 - totalCells;
+            for (let i = 1; i <= remainingCells; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = i;
+                grid.appendChild(day);
+            }
+        }
+
+        // Switch tab
+        function switchTab(tab) {
+            const tabMasehi = document.getElementById('tabMasehi');
+            const tabHijriyah = document.getElementById('tabHijriyah');
+            const calendarMasehi = document.getElementById('calendarMasehi');
+            const calendarHijriyah = document.getElementById('calendarHijriyah');
+
+            if (tab === 'masehi') {
+                tabMasehi.style.backgroundColor = 'white';
+                tabMasehi.style.color = '#437C9F';
+                tabMasehi.style.borderColor = '#437C9F';
+                
+                tabHijriyah.style.backgroundColor = '#DFEFF6';
+                tabHijriyah.style.color = '#165273';
+                tabHijriyah.style.borderColor = '#DFEFF6';
+
+                calendarMasehi.style.display = 'block';
+                calendarHijriyah.style.display = 'none';
+            } else {
+                tabMasehi.style.backgroundColor = '#DFEFF6';
+                tabMasehi.style.color = '#165273';
+                tabMasehi.style.borderColor = '#DFEFF6';
+                
+                tabHijriyah.style.backgroundColor = 'white';
+                tabHijriyah.style.color = '#437C9F';
+                tabHijriyah.style.borderColor = '#437C9F';
+
+                calendarMasehi.style.display = 'none';
+                calendarHijriyah.style.display = 'block';
+            }
+        }
+
+        // Navigation Masehi
+        function previousMonthMasehi() {
+            currentDateMasehi.setMonth(currentDateMasehi.getMonth() - 1);
+            generateCalendarMasehi();
+        }
+
+        function nextMonthMasehi() {
+            currentDateMasehi.setMonth(currentDateMasehi.getMonth() + 1);
+            generateCalendarMasehi();
+        }
+
+        // Navigation Hijri
+        function previousMonthHijri() {
+            if (currentDateHijri.bulan === 1) {
+                currentDateHijri.bulan = 12;
+                currentDateHijri.tahun--;
+            } else {
+                currentDateHijri.bulan--;
+            }
+            generateCalendarHijri();
+        }
+
+        function nextMonthHijri() {
+            if (currentDateHijri.bulan === 12) {
+                currentDateHijri.bulan = 1;
+                currentDateHijri.tahun++;
+            } else {
+                currentDateHijri.bulan++;
+            }
+            generateCalendarHijri();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendarMasehi();
+            generateCalendarHijri();
+            setActiveNav('kalender');
+        });
+    </script>
+    <script src="../navbar.js"></script>
+</body>
+</html>

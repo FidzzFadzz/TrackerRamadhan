@@ -11,6 +11,53 @@
             background: linear-gradient(to bottom, #DFEFF6 0%, #ffffff 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        /* Navigation Styling */
+        .nav-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: white;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            opacity: 0.8;
+        }
+        .nav-button.nav-active {
+            opacity: 1;
+        }
+        .nav-button.nav-active .nav-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .nav-button.nav-active .nav-icon-wrapper i {
+            color: #165273;
+            font-size: 24px;
+        }
+        .nav-button:not(.nav-active) .nav-icon-wrapper {
+            width: auto;
+            height: auto;
+            margin-top: 0;
+        }
+        .nav-button:not(.nav-active) .nav-icon-wrapper i {
+            font-size: 20px;
+        }
+        .nav-label {
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .nav-button.nav-active .nav-label {
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -61,19 +108,23 @@
         <div class="fixed bottom-0 left-0 right-0 shadow-lg" style="background: linear-gradient(to right, #165273, #215472);">
             <div class="max-w-md mx-auto">
                 <div class="flex justify-around items-center py-4 px-6">
-                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition" onclick="window.location.href='../index.html'">
-                        <i class="fas fa-calendar-alt text-xl"></i>
-                        <span class="text-xs">Kalender</span>
-                    </button>
-                    <button class="flex flex-col items-center gap-1 text-white" onclick="window.location.href='../index.html'">
-                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center -mt-8 shadow-lg">
-                            <i class="fas fa-home text-2xl" style="color: #165273;"></i>
+                    <button class="nav-button" data-page="kalender" onclick="window.location.href='kalender.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
                         </div>
-                        <span class="text-xs mt-1">Home</span>
+                        <span class="nav-label">Kalender</span>
                     </button>
-                    <button class="flex flex-col items-center gap-1 text-white opacity-60 hover:opacity-100 transition">
-                        <i class="fas fa-user-circle text-xl"></i>
-                        <span class="text-xs">Profil</span>
+                    <button class="nav-button nav-active" data-page="home" onclick="window.location.href='../index.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <span class="nav-label">Home</span>
+                    </button>
+                    <button class="nav-button" data-page="profil" onclick="window.location.href='profil.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <span class="nav-label">Profil</span>
                     </button>
                 </div>
             </div>
@@ -129,5 +180,6 @@
             window.location.href = 'alquran.html';
         });
     </script>
+    <script src="../navbar.js"></script>
 </body>
 </html>

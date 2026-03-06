@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - Aplikasi Islami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #DFEFF6 0%, #ffffff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(to bottom, #0f1419 0%, #1a1f2e 100%);
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark-mode .profile-card {
+            background: linear-gradient(135deg, #1a1f2e 0%, #252d3d 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #437C9F 0%, #215472 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            margin: 0 auto 16px;
+        }
+
+        .profile-name {
+            text-align: center;
+            color: #1a1f2e;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .profile-name {
+            color: #e8f0f7;
+        }
+
+        .profile-subtitle {
+            text-align: center;
+            color: #8fa3b8;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        body.dark-mode .profile-subtitle {
+            color: #8fa3b8;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background: #f3f4f6;
+            transform: translateX(4px);
+        }
+
+        body.dark-mode .menu-item {
+            background: #252d3d;
+        }
+
+        body.dark-mode .menu-item:hover {
+            background: #2d3547;
+        }
+
+        .menu-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #437C9F 0%, #215472 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .menu-content {
+            flex: 1;
+        }
+
+        .menu-title {
+            color: #1a1f2e;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .menu-title {
+            color: #e8f0f7;
+        }
+
+        .menu-subtitle {
+            color: #8fa3b8;
+            font-size: 13px;
+        }
+
+        .menu-arrow {
+            color: #d1d5db;
+            font-size: 16px;
+        }
+
+        body.dark-mode .menu-arrow {
+            color: #5fa3c8;
+        }
+
+        .section-title {
+            color: #1a1f2e;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            padding: 0 4px;
+        }
+
+        body.dark-mode .section-title {
+            color: #e8f0f7;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        body.dark-mode .modal-content {
+            background: linear-gradient(135deg, #1a1f2e 0%, #252d3d 100%);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #1a1f2e;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        body.dark-mode .modal-title {
+            color: #e8f0f7;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #8fa3b8;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            color: #1a1f2e;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        body.dark-mode .form-label {
+            color: #e8f0f7;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1a1f2e;
+            background: white;
+        }
+
+        body.dark-mode .form-input {
+            background: #252d3d;
+            border-color: #3d4556;
+            color: #e8f0f7;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #437C9F;
+            box-shadow: 0 0 0 3px rgba(67, 124, 159, 0.1);
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .option-item {
+            border-color: #3d4556;
+        }
+
+        .option-item.selected {
+            border-color: #437C9F;
+            background: rgba(67, 124, 159, 0.1);
+        }
+
+        body.dark-mode .option-item.selected {
+            background: rgba(67, 124, 159, 0.2);
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-item.selected .option-radio {
+            border-color: #437C9F;
+            background: #437C9F;
+        }
+
+        .option-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .option-item.selected .option-radio::after {
+            display: block;
+        }
+
+        .option-label {
+            color: #1a1f2e;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        body.dark-mode .option-label {
+            color: #e8f0f7;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #437C9F 0%, #215472 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 124, 159, 0.3);
+        }
+
+        .info-text {
+            color: #8fa3b8;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        body.dark-mode .info-text {
+            color: #8fa3b8;
+        }
+
+        /* Navigation Styling */
+        .nav-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: white;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            opacity: 0.8;
+        }
+
+        .nav-button.nav-active {
+            opacity: 1;
+        }
+
+        .nav-button.nav-active .nav-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-button.nav-active .nav-icon-wrapper i {
+            color: #165273;
+            font-size: 24px;
+        }
+
+        .nav-button:not(.nav-active) .nav-icon-wrapper {
+            width: auto;
+            height: auto;
+            margin-top: 0;
+        }
+
+        .nav-button:not(.nav-active) .nav-icon-wrapper i {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button.nav-active .nav-label {
+            margin-top: 4px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(67, 124, 159, 0.3);
+            border-top-color: #437C9F;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg">
+        
+        <!-- Header -->
+        <div class="px-6 pt-6 pb-6" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="flex items-center gap-4">
+                <button onclick="window.history.back()" class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-arrow-left text-white text-lg"></i>
+                </button>
+                <div>
+                    <h1 class="text-white text-xl font-semibold">Profil</h1>
+                    <p class="text-white text-sm opacity-90">Pengaturan Akun</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="px-6 py-6 pb-32">
+            
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-name">Pengguna</div>
+                <div class="profile-subtitle">Aplikasi Islami</div>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="section-title">Pengaturan</div>
+
+            <!-- Lokasi -->
+            <div class="menu-item" onclick="openLocationModal()">
+                <div class="menu-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Lokasi</div>
+                    <div class="menu-subtitle" id="locationSubtitle">Mendeteksi lokasi...</div>
+                </div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <!-- Notifikasi -->
+            <div class="menu-item" onclick="openNotificationModal()">
+                <div class="menu-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Notifikasi</div>
+                    <div class="menu-subtitle">Kelola notifikasi</div>
+                </div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <!-- Tema -->
+            <div class="menu-item" onclick="openThemeModal()">
+                <div class="menu-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Tema</div>
+                    <div class="menu-subtitle" id="themeSubtitle">Terang</div>
+                </div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <!-- Pengaturan Lainnya -->
+            <div class="section-title">Pengaturan Lainnya</div>
+
+            <!-- Info Aplikasi -->
+            <div class="menu-item" onclick="openInfoModal()">
+                <div class="menu-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Info Aplikasi</div>
+                    <div class="menu-subtitle">Versi 1.0.0</div>
+                </div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Location Modal -->
+        <div class="modal" id="locationModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Lokasi Anda</h2>
+                    <button class="modal-close" onclick="closeLocationModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <div class="info-text">
+                        <div class="loading-spinner"></div> Mendeteksi lokasi Anda...
+                    </div>
+                    <div id="locationInfo" style="display: none;">
+                        <div class="form-label">Lokasi Terdeteksi</div>
+                        <div class="form-input" id="detectedLocation" style="background: #f9fafb; cursor: default; border: 1px solid #e5e7eb;">
+                            -
+                        </div>
+                        <div class="form-label" style="margin-top: 16px;">Koordinat</div>
+                        <div class="form-input" id="coordinates" style="background: #f9fafb; cursor: default; border: 1px solid #e5e7eb; font-size: 12px;">
+                            -
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="detectLocation()">
+                    <i class="fas fa-sync-alt"></i> Deteksi Ulang
+                </button>
+            </div>
+        </div>
+
+        <!-- Notification Modal -->
+        <div class="modal" id="notificationModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Notifikasi</h2>
+                    <button class="modal-close" onclick="closeNotificationModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <div class="info-text">
+                        Kelola pengaturan notifikasi untuk aplikasi ini.
+                    </div>
+                </div>
+
+                <div class="option-group">
+                    <div class="option-item selected" onclick="toggleNotification(this)">
+                        <div class="option-radio"></div>
+                        <div class="option-label">Notifikasi Aktif</div>
+                    </div>
+                    <div class="option-item" onclick="toggleNotification(this)">
+                        <div class="option-radio"></div>
+                        <div class="option-label">Notifikasi Nonaktif</div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="closeNotificationModal()">
+                    Simpan
+                </button>
+            </div>
+        </div>
+
+        <!-- Theme Modal -->
+        <div class="modal" id="themeModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Pilih Tema</h2>
+                    <button class="modal-close" onclick="closeThemeModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <div class="info-text">
+                        Pilih tema yang sesuai dengan preferensi Anda.
+                    </div>
+                </div>
+
+                <div class="option-group">
+                    <div class="option-item selected" id="themeLight" onclick="selectTheme('light', this)">
+                        <div class="option-radio"></div>
+                        <div class="option-label">
+                            <i class="fas fa-sun" style="margin-right: 8px; color: #FFA500;"></i>Terang
+                        </div>
+                    </div>
+                    <div class="option-item" id="themeDark" onclick="selectTheme('dark', this)">
+                        <div class="option-radio"></div>
+                        <div class="option-label">
+                            <i class="fas fa-moon" style="margin-right: 8px; color: #4B5563;"></i>Gelap
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="closeThemeModal()">
+                    Simpan
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Modal -->
+        <div class="modal" id="infoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Info Aplikasi</h2>
+                    <button class="modal-close" onclick="closeInfoModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">Nama Aplikasi</div>
+                    <div class="form-input" style="background: #f9fafb; cursor: default; border: 1px solid #e5e7eb;">
+                        Aplikasi Islami
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">Versi</div>
+                    <div class="form-input" style="background: #f9fafb; cursor: default; border: 1px solid #e5e7eb;">
+                        1.0.0
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">Deskripsi</div>
+                    <div class="info-text">
+                        Aplikasi Islami adalah aplikasi mobile yang dirancang untuk membantu umat Muslim dalam menjalankan ibadah sehari-hari dengan fitur-fitur lengkap seperti jadwal sholat, Al-Qur'an, doa, dan tracker ibadah.
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="closeInfoModal()">
+                    Tutup
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 shadow-lg" style="background: linear-gradient(to right, #165273, #215472);">
+            <div class="max-w-md mx-auto">
+                <div class="flex justify-around items-center py-4 px-6">
+                    <button class="nav-button" data-page="kalender" onclick="window.location.href='kalender.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <span class="nav-label">Kalender</span>
+                    </button>
+                    <button class="nav-button" data-page="home" onclick="window.location.href='../index.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <span class="nav-label">Home</span>
+                    </button>
+                    <button class="nav-button nav-active" data-page="profil" onclick="window.location.href='profil.html'">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <span class="nav-label">Profil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../navbar.js"></script>
+    <script>
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setActiveNav('profil');
+            initializeTheme();
+            detectLocation();
+        });
+
+        // Theme Management
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('appTheme') || 'light';
+            applyTheme(savedTheme);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeSubtitle').textContent = 'Gelap';
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('themeSubtitle').textContent = 'Terang';
+            }
+            localStorage.setItem('appTheme', theme);
+        }
+
+        function selectTheme(theme, element) {
+            // Remove selected class from all options
+            document.querySelectorAll('#themeModal .option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            // Apply theme
+            applyTheme(theme);
+        }
+
+        // Location Management
+        function detectLocation() {
+            const locationInfo = document.getElementById('locationInfo');
+            const detectedLocation = document.getElementById('detectedLocation');
+            const coordinates = document.getElementById('coordinates');
+            const locationSubtitle = document.getElementById('locationSubtitle');
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        coordinates.textContent = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                        
+                        // Reverse geocoding using OpenStreetMap Nominatim
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                const address = data.address;
+                                const city = address.city || address.town || address.village || 'Lokasi Tidak Diketahui';
+                                const country = address.country || '';
+                                const location = `${city}, ${country}`.replace(', ', ' ');
+                                
+                                detectedLocation.textContent = location;
+                                locationSubtitle.textContent = city;
+                                locationInfo.style.display = 'block';
+                                
+                                // Save to localStorage
+                                localStorage.setItem('userLocation', JSON.stringify({
+                                    city: city,
+                                    lat: lat,
+                                    lon: lon,
+                                    timestamp: new Date().getTime()
+                                }));
+                            })
+                            .catch(error => {
+                                console.error('Geocoding error:', error);
+                                detectedLocation.textContent = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                                locationSubtitle.textContent = 'Koordinat Terdeteksi';
+                                locationInfo.style.display = 'block';
+                            });
+                    },
+                    function(error) {
+                        console.error('Geolocation error:', error);
+                        detectedLocation.textContent = 'Gagal mendeteksi lokasi';
+                        locationSubtitle.textContent = 'Izinkan akses lokasi';
+                        locationInfo.style.display = 'block';
+                    }
+                );
+            } else {
+                detectedLocation.textContent = 'Geolocation tidak didukung';
+                locationSubtitle.textContent = 'Browser tidak mendukung';
+                locationInfo.style.display = 'block';
+            }
+        }
+
+        // Modal Functions
+        function openLocationModal() {
+            document.getElementById('locationModal').classList.add('active');
+        }
+
+        function closeLocationModal() {
+            document.getElementById('locationModal').classList.remove('active');
+        }
+
+        function openNotificationModal() {
+            document.getElementById('notificationModal').classList.add('active');
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notificationModal').classList.remove('active');
+        }
+
+        function openThemeModal() {
+            document.getElementById('themeModal').classList.add('active');
+            const currentTheme = localStorage.getItem('appTheme') || 'light';
+            
+            document.getElementById('themeLight').classList.remove('selected');
+            document.getElementById('themeDark').classList.remove('selected');
+            
+            if (currentTheme === 'dark') {
+                document.getElementById('themeDark').classList.add('selected');
+            } else {
+                document.getElementById('themeLight').classList.add('selected');
+            }
+        }
+
+        function closeThemeModal() {
+            document.getElementById('themeModal').classList.remove('active');
+        }
+
+        function openInfoModal() {
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        function toggleNotification(element) {
+            document.querySelectorAll('#notificationModal .option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
