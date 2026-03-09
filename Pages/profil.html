@@ -470,7 +470,7 @@
             </div>
 
             <!-- Notifikasi -->
-            <div class="menu-item" onclick="openNotificationModal()">
+            <div class="menu-item" onclick="showNotificationSettings()">
                 <div class="menu-icon">
                     <i class="fas fa-bell"></i>
                 </div>
@@ -683,6 +683,7 @@
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../navbar.js"></script>
     <script>
         // Initialize theme on page load
@@ -786,13 +787,20 @@
             document.getElementById('locationModal').classList.remove('active');
         }
 
-        function openNotificationModal() {
-            document.getElementById('notificationModal').classList.add('active');
+        function showNotificationSettings() {
+            Swal.fire({
+                title: 'Pengaturan Notifikasi',
+                text: 'Fitur notifikasi kustom akan segera hadir di pembaruan berikutnya. Untuk saat ini pengingat bawaan sudah aktif.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#437C9F',
+                cancelButtonColor: '#e5e7eb',
+                confirmButtonText: 'Terima Kasih',
+                cancelButtonText: '<span style="color: #4b5563">Tutup</span>',
+            });
         }
 
-        function closeNotificationModal() {
-            document.getElementById('notificationModal').classList.remove('active');
-        }
+        // Removed redundant old notification modal functions
 
         function openThemeModal() {
             document.getElementById('themeModal').classList.add('active');

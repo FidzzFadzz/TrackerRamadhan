@@ -134,10 +134,12 @@
 
     <script>
         // Data 30 Juz
+        // Data 30 Juz dengan halaman awal di mushaf standar Madinah
+        const juzPages = [1, 22, 42, 62, 82, 102, 122, 142, 162, 182, 202, 222, 242, 262, 282, 302, 322, 342, 362, 382, 402, 422, 442, 462, 482, 502, 522, 542, 562, 582];
         const juzData = Array.from({ length: 30 }, (_, i) => ({
             no: i + 1,
             nama: `Juz ${i + 1}`,
-            surah: i === 0 ? 'Al-Fatihah' : i === 1 ? 'Al-Baqarah' : 'Surah'
+            page: juzPages[i]
         }));
 
         // Generate Juz Grid
@@ -152,9 +154,9 @@
 
             filtered.forEach(juz => {
                 const html = `
-                    <div class="flex flex-col items-center justify-center p-6 rounded-3xl bg-white border border-gray-100 cursor-pointer hover:shadow-md transition min-h-40">
+                    <div class="flex flex-col items-center justify-center p-6 rounded-3xl bg-white border border-gray-100 cursor-pointer hover:shadow-md transition min-h-40" onclick="window.location.href='juz.html?id=${juz.no}'">
                         <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-3" style="background-color: #DFEFF6;">
-                            <img src="../Asset/Logo Alquran.png" alt="Al-Qur'an" class="w-12 h-12 object-contain">
+                            <img src="../Asset/Logo%20Alquran.png" alt="Al-Qur'an" class="w-12 h-12 object-contain" onerror="this.src=''; this.className='hidden'; this.parentElement.innerHTML='<i class=\\'fas fa-book-open text-2xl text-[%23165273]\\'></i>';">
                         </div>
                         <p class="text-gray-800 font-semibold text-base text-center">Juz ${juz.no}</p>
                     </div>

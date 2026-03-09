@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mushaf Al-Qur'an</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Using a classic Uthmani Font for Mushaf Experience -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap');
+
+        body {
+            background-color: #f7f3e8; /* Classic Mushaf Paper Color */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .mushaf-container {
+            max-width: 576px;
+            margin: 0 auto;
+            background-color: #fdfbf7;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Style */
+        .mushaf-header {
+            background: #165273;
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .header-title {
+            text-align: center;
+        }
+        
+        .header-title h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .header-title p {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        /* Quran Page Area */
+        .quran-page {
+            flex: 1;
+            padding: 2rem 1.5rem 6rem 1.5rem; /* bottom padding for nav */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* The Frame decoration around the page */
+        .page-frame {
+            border: 2px solid #bba357; /* Gold-ish border */
+            border-radius: 4px;
+            padding: 1.5rem 1rem;
+            min-height: 60vh;
+            position: relative;
+            background-image: 
+                linear-gradient(#fdfbf7, #fdfbf7),
+                radial-gradient(circle at top left, #bba357 5px, transparent 6px),
+                radial-gradient(circle at top right, #bba357 5px, transparent 6px),
+                radial-gradient(circle at bottom left, #bba357 5px, transparent 6px),
+                radial-gradient(circle at bottom right, #bba357 5px, transparent 6px);
+            background-origin: padding-box, border-box, border-box, border-box, border-box;
+            background-clip: padding-box, border-box, border-box, border-box, border-box;
+            background-size: auto, 12px 12px, 12px 12px, 12px 12px, 12px 12px;
+            background-position: auto, top left, top right, bottom left, bottom right;
+            background-repeat: no-repeat;
+        }
+
+        .arabic-text {
+            font-family: 'Scheherazade New', 'Amiri', serif;
+            font-size: 2.35rem; /* Slightly larger base font */
+            line-height: 2.2; /* Tighter line height to look like a book block */
+            text-align: justify;
+            text-align-last: justify; /* Force last line to justify as well if it wraps naturally */
+            text-justify: inter-word; /* Crucial for clean right-left flush bounds */
+            direction: rtl;
+            color: #2c2925;
+            padding: 0 10px;
+            /* Adjust letter-spacing slightly if inter-word causes visual gaps */
+            word-spacing: -2px; 
+            margin-bottom: 0;
+            display: block;
+        }
+
+        /* Prevent single words/ayah markers from dangling weirdly on the last line */
+        .arabic-text::after {
+            content: "";
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* Ayat Number Marker */
+        .ayah-end {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            margin: 0 8px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L60 25 L85 15 L70 40 L100 50 L70 60 L85 85 L60 75 L50 100 L40 75 L15 85 L30 60 L0 50 L30 40 L15 15 L40 25 Z" fill="%23bba357" opacity="0.3"/><circle cx="50" cy="50" r="35" fill="white" stroke="%23bba357" stroke-width="3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #165273;
+            vertical-align: middle;
+        }
+
+        .surah-title-plate {
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="%23165273"/><path d="M0,25 Q50,0 100,25 T200,25 T300,25 T400,25" fill="none" stroke="%23bba357" stroke-width="2"/></svg>');
+            background-color: #165273;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            margin: 20px 0;
+            font-family: 'Scheherazade New', 'Amiri', serif;
+            font-size: 2rem;
+            border-radius: 8px;
+            border: 2px solid #bba357;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bismillah {
+            font-family: 'Scheherazade New', 'Amiri', serif;
+            font-size: 2rem;
+            text-align: center;
+            margin: 15px 0 25px 0;
+            color: #165273;
+        }
+
+        /* Bottom Controls */
+        .mushaf-controls {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 576px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+            border-top: 1px solid #eee;
+            z-index: 50;
+        }
+
+        .btn-page {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #DFEFF6;
+            color: #165273;
+            padding: 10px 20px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-page:hover {
+            background: #165273;
+            color: white;
+        }
+        
+        .btn-page:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .page-indicator {
+            font-weight: bold;
+            color: #437C9F;
+            font-size: 1.1rem;
+        }
+
+        /* Loading UI */
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(253, 251, 247, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 40;
+        }
+        .spinner {
+            border: 4px solid rgba(22, 82, 115, 0.1);
+            border-left-color: #165273;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="mushaf-container">
+        
+        <!-- Header -->
+        <header class="mushaf-header">
+            <button onclick="window.history.back()" class="w-10 h-10 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-full flex items-center justify-center transition">
+                <i class="fas fa-arrow-left text-lg"></i>
+            </button>
+            
+            <div class="header-title">
+                <h1 id="headerSurahName">Memuat...</h1>
+                <p id="headerJuzInfo">Juz -</p>
+            </div>
+            
+            <button class="w-10 h-10 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-full flex items-center justify-center transition" onclick="toggleBookmark()">
+                <i class="fas fa-bookmark text-lg" id="bookmarkIcon"></i>
+            </button>
+        </header>
+
+        <!-- Main Quran Page Area -->
+        <main class="quran-page">
+            <div id="loading" class="loading-overlay">
+                <div class="spinner mb-4"></div>
+                <p class="text-gray-500 font-medium">Memuat Halaman Mushaf...</p>
+            </div>
+            
+            <div class="page-frame" id="quranContent">
+                <!-- Surah titles and ayahs will be injected here -->
+            </div>
+        </main>
+
+        <!-- Pagination Controls -->
+        <nav class="mushaf-controls">
+            <!-- Next Button (Right arrow, but means Previous Page in Arabic/RTL) -->
+            <button class="btn-page" id="btnNext" onclick="changePage(1)">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            
+            <div class="page-indicator" id="pageIndicator">--</div>
+            
+            <!-- Prev Button (Left arrow, but means Next Page in Arabic/RTL) -->
+            <button class="btn-page" id="btnPrev" onclick="changePage(-1)">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </nav>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentPage = parseInt(urlParams.get('page')) || 1;
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > 604) currentPage = 604;
+        
+        const quranContent = document.getElementById('quranContent');
+        const loading = document.getElementById('loading');
+        const headerSurahName = document.getElementById('headerSurahName');
+        const headerJuzInfo = document.getElementById('headerJuzInfo');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        
+        // Convert English/Western numbers to Arabic HTML entities if needed
+        const toArabicNumber = (num) => {
+            const id = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+            return num.toString().split('').map(c => id[c] || c).join('');
+        };
+
+        async function fetchQuranPage(page) {
+            loading.style.display = 'flex';
+            quranContent.innerHTML = '';
+            
+            try {
+                // Using Quran.com v4 API with word-by-word data which includes line numbers!
+                // This allows 100% accurate Madinah Mushaf print replica.
+                const res = await fetch(`https://api.quran.com/api/v4/verses/by_page/${page}?words=true&word_fields=text_uthmani,line_number`);
+                const data = await res.json();
+                
+                if(data.verses) {
+                    renderPageByLine(data.verses, page);
+                } else {
+                    throw new Error("API Error");
+                }
+            } catch (err) {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Memuat',
+                    text: 'Silakan periksa koneksi internet Anda.',
+                    confirmButtonColor: '#165273'
+                });
+                loading.style.display = 'none';
+            } 
+        }
+
+        async function renderPageByLine(verses, pageNumber) {
+            let html = '';
+            
+            // Re-fetch basic surah info to populate headers correctly
+            headerSurahName.textContent = "Halaman " + pageNumber;
+            pageIndicator.textContent = pageNumber;
+            try {
+                const metaRes = await fetch(`https://api.alquran.cloud/v1/page/${pageNumber}`);
+                const metaData = await metaRes.json();
+                if(metaData.code === 200) {
+                    headerSurahName.textContent = metaData.data.ayahs[0].surah.name;
+                    headerJuzInfo.textContent = `Juz ${metaData.data.ayahs[0].juz}`;
+                }
+            } catch(e) { console.log(e); }
+
+            // Group words by their physical line number!
+            const linesList = {};
+            let activeSurahNumber = null;
+            
+            verses.forEach(verse => {
+                const parts = verse.verse_key.split(':');
+                const surahNum = parseInt(parts[0]);
+                const ayahNum = parseInt(parts[1]);
+                
+                // Keep track of surah changes. If a surah changes or Bismillah appears, 
+                // the API usually gives them their own line number or a blank line
+                verse.words.forEach(word => {
+                    const lineNum = word.line_number;
+                    if (!linesList[lineNum]) {
+                        linesList[lineNum] = {
+                            words: [],
+                            isBismillah: false,
+                            isSurahName: false,
+                            surahNum: surahNum
+                        };
+                    }
+                    
+                    if (word.char_type_name === 'end') {
+                         linesList[lineNum].words.push(`<span class="ayah-end">${toArabicNumber(ayahNum)}</span>`);
+                    } else {
+                         // Some page APIs put the Bismillah as line 1 or 2 explicitly, some weave it in.
+                         // But if char_type is text, we just add it
+                         linesList[lineNum].words.push(word.text_uthmani);
+                    }
+                });
+            });
+
+            // Now render each physical line exactly as it appears in the book
+            html += `<div style="display: flex; flex-direction: column; width: 100%; gap: 6px;">`;
+            
+            // Loop through lines 1 to 15 (Standard Madinah Mushaf pages have 15 lines)
+            for(let i = 1; i <= 15; i++) {
+                if(linesList[i]) {
+                    const line = linesList[i];
+                    
+                    // Check if line looks like just a bismillah
+                    const textContent = line.words.join(' ').replace(/<[^>]*>?/gm, '');
+                    const isBismillahLine = textContent.includes("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ");
+                    
+                    // The standard API doesn't output Surah Name frames as words, it usually skips lines.
+                    // For instance, if a page starts a Surah, lines 1 and 2 might be missing from the words list
+                    // We will reconstruct missing lines as headers if we detect a surah shift
+                    
+                    if (isBismillahLine) {
+                         html += `<div class="bismillah" style="text-align: center; width: 100%;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>`;
+                    } else {
+                        // Render standard line!
+                        // The magic spacing sauce: We flex them with space-between unless it's the last line of a pararaph/surah
+                        let justifyContent = 'space-between';
+                        
+                        // If it's the absolute last line of the page or surah, and it doesn't fill the width, 
+                        // space-between will stretch 2 words across the whole screen. 
+                        // Standard Mushaf just centers the remaining words on the last line of a Surah usually.
+                        // We'll apply space-between to all, and let CSS handle the visual padding, but true Mushaf pushes words.
+                        
+                        html += `
+                        <div class="mushaf-line" style="
+                            display: flex; 
+                            flex-direction: row-reverse; 
+                            justify-content: ${justifyContent}; 
+                            width: 100%;
+                            font-family: 'Scheherazade New', 'Amiri', serif;
+                            font-size: 2.35rem;
+                            color: #2c2925;
+                            line-height: normal;
+                        ">
+                            ${line.words.map(w => `<span>${w}</span>`).join('')}
+                        </div>`;
+                    }
+                } else {
+                    // Empty lines in API usually mean Surah Headers!
+                    // Let's find out which surah this belongs to by looking at the next available line
+                    let nextSurah = null;
+                    for (let j = i+1; j <= 15; j++) {
+                        if (linesList[j]) { nextSurah = linesList[j].surahNum; break; }
+                    }
+                    if (nextSurah && nextSurah !== activeSurahNumber) {
+                        html += `
+                            <div class="surah-title-plate" style="margin: 5px 0;">
+                                سورة ${nextSurah}
+                            </div>
+                        `;
+                        activeSurahNumber = nextSurah;
+                    } else {
+                        // Just an empty spacer line
+                        html += `<div style="height: 30px;"></div>`;
+                    }
+                }
+            }
+            html += `</div>`;
+
+            quranContent.innerHTML = html;
+            loading.style.display = 'none';
+
+            btnPrev.disabled = (currentPage === 604);
+            btnNext.disabled = (currentPage === 1);
+            
+            window.history.replaceState({}, '', `?page=${currentPage}`);
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            if(currentPage < 1) currentPage = 1;
+            if(currentPage > 604) currentPage = 604;
+            
+            window.scrollTo(0,0);
+            fetchQuranPage(currentPage);
+        }
+
+        function toggleBookmark() {
+            const icon = document.getElementById('bookmarkIcon');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                Swal.fire({
+                    toast: true,
+                    position: 'top',
+                    icon: 'success',
+                    title: 'Halaman ditandai',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+        }
+
+        // Initialize fetch
+        fetchQuranPage(currentPage);
+    </script>
+</body>
+</html>
